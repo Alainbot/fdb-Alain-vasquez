@@ -88,48 +88,39 @@ select MAX(Monto), MIN(Monto) from GastosPersonales.Gastos;
 select g.ID_gastos,g.FECHA,u.Nombre,u.Apellido
 from gastospersonales.gastos as g
 inner join  gastospersonales.usuarios as u on u.ID_gastos = g.ID_gastos;
-/*
-SELECCIONE tabla1. columna, tabla2. Columna
-DESDE TABLA1
-INNER JOIN tabla2 ON tabla1. columna_comun = tabla2. columna_comun;
 
-SELECCIONE e. nombre AS empleado, d. nombre AS departamento
-FROM empleados e
-JOIN departamentos d ON e. departamento_id = d. identificación
-DONDE e. salario > 50000;
 
-SELECCIONE e. nombre AS empleado, e. salario
-FROM empleados e
-DONDE e. salario > (
-    SELECT AVG(salario) FROM empleados WHERE departamento_id = e. departamento_id
+SELECT u.Nombre AS empleado, c.Categoria AS categoria_de_gastos
+FROM GastosPersonales.Gastos AS g
+JOIN GastosPersonales.Usuarios AS u ON g.ID_USUARIO = u.ID_USUARIO
+JOIN GastosPersonales.CategoriadeGastos AS c ON g.ID_Categoria = c.ID_Categoria
+WHERE g.Monto < 50000;
+
+SELECT u.Nombre AS usuario, g.Monto AS gasto_personal
+FROM GastosPersonales.Gastos AS g
+JOIN GastosPersonales.Usuarios AS u ON g.ID_USUARIO = u.ID_USUARIO
+WHERE g.Monto > (
+    SELECT AVG(g2.Monto) FROM GastosPersonales.Gastos AS g2 WHERE g.ID_Categoria = g2.ID_Categoria
 );
 
-SELECCIONE departamento_id, AVG (salario) COMO salario_promedio
-DE empleados
-AGRUPAR POR departamento_id;
+SELECT ID_Categoria, AVG(Monto) AS gasto_promedio
+FROM GastosPersonales.gastos
+GROUP BY ID_Categoria;
 
-SELECT nombre, fecha_contratacion
-DE empleados
-DÓNDE DATEPART(AÑO, fecha_contratacion) = 2023;
+SELECT Nombre, 'Usuario' AS tipo
+FROM GastosPersonales.Usuarios;
 
-SELECT nombre, 'Empleado' AS tipo
-DE empleados
-UNIÓN
-SELECT nombre, 'Cliente' AS tipo
-DE clientes;
+SELECT Nombre
+FROM GastosPersonales.Usuarios
+WHERE Nombre LIKE '%Pedro%';
 
-SELECT nombre, direccion
-DE clientes
-WHERE dirección LIKE '%Calle%';
+SELECT u.Nombre AS usuario, c.Categoria AS categoria_de_gastos
+FROM GastosPersonales.gastos AS g
+JOIN GastosPersonales.Usuarios AS u ON g.ID_USUARIO = u.ID_USUARIO
+JOIN GastosPersonales.CategoriadeGastos AS c ON g.ID_Categoria = c.ID_Categoria
+WHERE g.Monto > 50;
 
-SELECT nombre
-DE productos
-DÓNDE EXISTE (
-    SELECCIONE 1 DE ventas DONDE producto_id = productos. identificación);
-
-
-SELECT nombre, salario
-DE empleados
-PEDIDO POR salario DESC
-DESPLAZAR 10 FILAS SOLO RECUPERA LAS SIGUIENTES 10 FILAS;
-*/
+SELECT Nombre
+FROM GastosPersonales.Usuarios
+ORDER BY Nombre ASC
+LIMIT 5;
