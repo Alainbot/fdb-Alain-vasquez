@@ -34,7 +34,7 @@ ALTER TABLE gastospersonales.gastos add foreign key (ID_Categoria) references Ga
 
 INSERT INTO GastosPersonales.Usuarios (ID_USUARIO, Nombre, Apellido, CORREO_ELECTRONICO, CONTRASEÑA) 
 VALUES 
-('1', 'Juan', 'Pérez', 'juan@example.com', 'contraseña1'),
+('1', 'Juan', 'Pérez', 'juan@example.com', ''),
 ('2', 'María', 'López', 'maria@example.com', 'contraseña2'),
 ('3', 'Pedro', 'González', 'pedro@example.com', 'contraseña3'),
 ('4', 'Ana', 'Martínez', 'ana@example.com', 'contraseña4'),
@@ -76,3 +76,60 @@ select *from GastosPersonales.CategoriadeGastos;
 
 -- delete from GastosPersonales.Usuarios where ID_USUARIO in ('001', '002', 'valor_ID_USUARIO');
 
+select * from GastosPersonales.Gastos;
+select ID_gastos, Monto from GastosPersonales.Gastos;
+select * from GastosPersonales.Usuarios where ID_USUARIO = '1';
+select * from GastosPersonales.Gastos order by Monto desc;
+select * from GastosPersonales.Gastos order by Monto asc;
+select COUNT(*) from GastosPersonales.CategoriadeGastos;
+select SUM(Monto) from GastosPersonales.Gastos;
+select MAX(Monto), MIN(Monto) from GastosPersonales.Gastos;
+
+select g.ID_gastos,g.FECHA,u.Nombre,u.Apellido
+from gastospersonales.gastos as g
+inner join  gastospersonales.usuarios as u on u.ID_gastos = g.ID_gastos;
+/*
+SELECCIONE tabla1. columna, tabla2. Columna
+DESDE TABLA1
+INNER JOIN tabla2 ON tabla1. columna_comun = tabla2. columna_comun;
+
+SELECCIONE e. nombre AS empleado, d. nombre AS departamento
+FROM empleados e
+JOIN departamentos d ON e. departamento_id = d. identificación
+DONDE e. salario > 50000;
+
+SELECCIONE e. nombre AS empleado, e. salario
+FROM empleados e
+DONDE e. salario > (
+    SELECT AVG(salario) FROM empleados WHERE departamento_id = e. departamento_id
+);
+
+SELECCIONE departamento_id, AVG (salario) COMO salario_promedio
+DE empleados
+AGRUPAR POR departamento_id;
+
+SELECT nombre, fecha_contratacion
+DE empleados
+DÓNDE DATEPART(AÑO, fecha_contratacion) = 2023;
+
+SELECT nombre, 'Empleado' AS tipo
+DE empleados
+UNIÓN
+SELECT nombre, 'Cliente' AS tipo
+DE clientes;
+
+SELECT nombre, direccion
+DE clientes
+WHERE dirección LIKE '%Calle%';
+
+SELECT nombre
+DE productos
+DÓNDE EXISTE (
+    SELECCIONE 1 DE ventas DONDE producto_id = productos. identificación);
+
+
+SELECT nombre, salario
+DE empleados
+PEDIDO POR salario DESC
+DESPLAZAR 10 FILAS SOLO RECUPERA LAS SIGUIENTES 10 FILAS;
+*/
